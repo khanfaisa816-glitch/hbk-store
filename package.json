@@ -1,0 +1,14 @@
+{
+  "name": "hbk-store",
+  "private": true,
+  "description": "HBK demo store (React + Express + SQLite)",
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "seed": "npm --prefix server run seed",
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "build:host": "npm --prefix server install && npm --prefix client install --include=dev && npm --prefix client run build"
+  }
+}

@@ -1,0 +1,150 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   HBK design tokens
+   Signboard green (brand), price-tag yellow (accent), chili red (sales / errors)
+------------------------------------------------------------------- */
+@theme {
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #f4f5f2;
+  --color-ink: #14201c;
+  --color-ink-soft: #52605a;
+  --color-line: #dbe0da;
+
+  --color-brand-50: #e8f3ef;
+  --color-brand-100: #cbe5dd;
+  --color-brand-500: #12806a;
+  --color-brand-600: #0b5d4b;
+  --color-brand-700: #094a3c;
+  --color-brand-800: #073a2f;
+
+  --color-tag: #ffcf2e;
+  --color-tag-dark: #e8b800;
+  --color-chili: #d63a1f;
+  --color-chili-50: #fdeeea;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.55;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+  button,
+  [role='button'],
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-brand-600 text-white hover:bg-brand-700;
+  }
+  .btn-tag {
+    @apply bg-tag text-ink hover:bg-tag-dark;
+  }
+  .btn-outline {
+    @apply border border-line bg-white text-ink hover:border-ink;
+  }
+  .btn-danger {
+    @apply bg-chili text-white hover:bg-red-700;
+  }
+  .btn-ghost {
+    @apply text-ink-soft hover:bg-black/5 hover:text-ink;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-[13px];
+  }
+
+  .input {
+    @apply w-full rounded-md border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-soft/60 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20;
+  }
+  .input[aria-invalid='true'] {
+    @apply border-chili focus:border-chili focus:ring-chili/20;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-ink;
+  }
+  .field-error {
+    @apply mt-1 text-[13px] text-chili;
+  }
+  .panel {
+    @apply rounded-lg border border-line bg-white;
+  }
+  .link {
+    @apply font-medium text-brand-600 underline decoration-brand-600/30 underline-offset-2 hover:decoration-brand-600;
+  }
+  .container-page {
+    @apply mx-auto w-full max-w-[1180px] px-4 sm:px-6;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Hero: price tags hanging from a string. They swing once when the page loads.
+------------------------------------------------------------------- */
+.price-tag {
+  clip-path: polygon(16% 0, 84% 0, 100% 11%, 100% 100%, 0 100%, 0 11%);
+}
+.tag-hang {
+  transform-origin: 50% 0;
+  transform: rotate(var(--r, 0deg));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tag-hang {
+    animation: tag-swing 1.9s cubic-bezier(0.3, 0.6, 0.4, 1) 1 both;
+    animation-delay: var(--d, 0s);
+  }
+}
+@keyframes tag-swing {
+  0% {
+    transform: rotate(calc(var(--r, 0deg) + 18deg));
+  }
+  35% {
+    transform: rotate(calc(var(--r, 0deg) - 9deg));
+  }
+  65% {
+    transform: rotate(calc(var(--r, 0deg) + 4deg));
+  }
+  100% {
+    transform: rotate(var(--r, 0deg));
+  }
+}
+
+/* Scrollbar for horizontal admin nav on phones */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
